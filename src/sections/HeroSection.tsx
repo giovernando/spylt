@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
 import { useMediaQuery } from "react-responsive";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface HeroSectionProps {
   onLoaded: () => void;
@@ -12,6 +12,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
   
   const isMobile = useMediaQuery({
     query: "(max-width: 768px)",
@@ -20,6 +21,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
   const isTablet = useMediaQuery({
     query: "(max-width: 1024px)",
   });
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -109,7 +114,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
   return (
     <section className="bg-main-bg">
       <div className="hero-container">
-        {isTablet ? (
+        {isHydrated && isTablet ? (
           <>
             {isMobile && (
               <Image
